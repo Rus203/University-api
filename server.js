@@ -1,11 +1,16 @@
 const express = require('express')
 
+const connectToDatabase = require('./database/connectToDatabase')
+const loader = require('./loader/loader')
+
+const PORT = process.env.PORT || 3000
+
 const server = express()
 
-server.get('/', (request, response) => {
-  response.send('Server reply')
-})
+connectToDatabase()
 
-server.listen(3000, () => {
-  console.log('server started')
+server.use(loader)
+
+server.listen(PORT, () => {
+  console.log(`server started on the ${PORT}`)
 })
