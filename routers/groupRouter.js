@@ -5,6 +5,7 @@ const { Router } = require('express')
 const groupRouter = Router()
 
 groupRouter.route('/:id')
+  .get(groupController.readGroupById)
   .put(groupController.updateGroup)
   .delete(groupController.deleteGroup)
 

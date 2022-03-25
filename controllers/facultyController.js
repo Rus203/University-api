@@ -4,26 +4,32 @@ const facultyController = {
   async addFaculty (request, response) {
     const data = request.body
     await facultyService.create(data)
-    response.status(200).send('the new faculty has been added successfully')
+    response.status(200).send({ message: 'the faculty has been added successfully' })
   },
 
   async readFaculties (request, response) {
     const data = request.query
-    const bands = await facultyService.read(data)
-    response.status(200).json(bands)
+    const faculties = await facultyService.read(data)
+    response.status(200).json(faculties)
+  },
+
+  async readFacultyById (request, response) {
+    const { id } = request.params
+    const faculty = await facultyService.readById(id)
+    response.status(200).json(faculty)
   },
 
   async updateFaculty (request, response) {
-    const data = request.body
+    const { name, phoneNumber } = request.body
     const id = request.params.id
-    await facultyService.update(id, data)
-    response.status(201).json('the current faculty has been updated')
+    const updatedNote = await facultyService.updateAndReturn(id, { name, phoneNumber })
+    response.status(201).json(updatedNote)
   },
 
   async deleteFaculty (request, response) {
     const { id } = request.params
-    await facultyService.delete(id)
-    response.status(200).json('the current faculty has been deleted')
+    const deletedNote = await facultyService.deleteAndReturn(id)
+    response.status(201).json(deletedNote)
   }
 }
 

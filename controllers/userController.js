@@ -7,17 +7,23 @@ const userController = {
     response.status(200).json(students)
   },
 
+  async readUserById (request, response) {
+    const { id } = request.params
+    const user = await userService.readById(id)
+    response.status(200).json(user)
+  },
+
   async updateUser (request, response) {
     const data = request.body
     const id = request.params.id
-    await userService.update(id, data)
-    response.status(201).json('the current user has been updated')
+    const updatedNote = await userService.updateAndReturn(id, data)
+    response.status(201).json(updatedNote)
   },
 
   async deleteUser (request, response) {
     const { id } = request.params
-    await userService.delete(id)
-    response.status(200).json('the current user has been deleted')
+    const deletedNote = await userService.deleteAndReturn(id)
+    response.status(200).json(deletedNote)
   }
 }
 

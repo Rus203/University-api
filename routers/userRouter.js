@@ -5,6 +5,7 @@ const { Router } = require('express')
 const userRouter = Router()
 
 userRouter.route('/:id')
+  .get(userController.readUserById)
   .put(userController.updateUser)
   .delete(userController.deleteUser)
 

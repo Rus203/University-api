@@ -5,6 +5,7 @@ const { Router } = require('express')
 const facultyRouter = Router()
 
 facultyRouter.route('/:id')
+  .get(facultyController.readFacultyById) // get faculties with filters
   .put(facultyController.updateFaculty)
   .delete(facultyController.deleteFaculty)
 

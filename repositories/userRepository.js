@@ -1,4 +1,4 @@
-const { userModel } = require('../models/index')
+const { userModel, facultyModel, groupModel } = require('../models/index')
 
 const userRepository = {
   async add (data) {
@@ -10,9 +10,11 @@ const userRepository = {
   },
 
   async read (data = {}) {
-    const users = await userModel.findAll({ where: data }, { raw: true })
-    const length = Object.keys(users).length
-    return (length === 1) ? users[0] : (length > 1) ? users : null
+    return await userModel.findAll({ where: data })
+  },
+
+  async readOnlyOne (data) {
+    return await userModel.findOne({ where: data })
   },
 
   async update (id, changes) {

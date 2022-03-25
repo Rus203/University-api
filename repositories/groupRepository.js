@@ -1,4 +1,4 @@
-const { groupModel } = require('../models/index')
+const { groupModel, userModel } = require('../models/index')
 
 const groupRepository = {
   async add (data) {
@@ -6,9 +6,23 @@ const groupRepository = {
   },
 
   async read (data = {}) {
-    const groups = await groupModel.findAll({ where: data }, { raw: true })
-    const length = Object.keys(groups).length
-    return (length === 1) ? groups[0] : (length > 1) ? groups : null
+    return await groupModel.findAll({
+      where: data,
+      include: {
+        model: userModel,
+        attributes: { exclude: ['userId'] }
+      }
+    })
+  },
+
+  async readOnlyOne (data) {
+    return await groupModel.findOne({
+      where: data,
+      include: {
+        model: userModel,
+        attributes: { exclude: ['userId'] }
+      }
+    })
   },
 
   async update (id, changes) {

@@ -26,7 +26,7 @@ module.exports = (sequelize) => {
     }
   }, {
     hooks: {
-      afterValidate: (User) => {
+      beforeCreate: (User) => {
         User.password = bcrypt.hashSync(User.password, 12)
       }
     }

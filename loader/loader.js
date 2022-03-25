@@ -13,7 +13,7 @@ const homeRouter = Router()
 homeRouter.use(json())
 homeRouter.use(passport.initialize())
 
-homeRouter.use('/auth', authRouter)
+homeRouter.use('/auth', authenticate, authRouter)
 homeRouter.use('/students', authenticate, studentRouter)
 homeRouter.use('/groups', authenticate, groupRouter)
 homeRouter.use('/faculties', authenticate, facultyRouter)
