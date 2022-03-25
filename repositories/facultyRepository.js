@@ -1,4 +1,4 @@
-const { facultyModel } = require('../models/index')
+const { groupModel, facultyModel, userModel } = require('../models/index')
 
 const facultyRepository = {
   async add (data) {
@@ -6,9 +6,31 @@ const facultyRepository = {
   },
 
   async read (data = {}) {
-    const faculties = await facultyModel.findAll({ where: data }, { raw: true })
-    const length = Object.keys(faculties).length
-    return (length === 1) ? faculties[0] : length > 1 ? faculties : null
+    return await facultyModel.findAll({
+      where: data,
+      include: {
+        model: groupModel,
+        attributes: { exclude: ['facultyId'] },
+        include: {
+          model: userModel,
+          attributes: { exclude: ['groupId'] }
+        }
+      }
+    })
+  },
+
+  async readOnlyOne (data) {
+    return await facultyModel.findOne({
+      where: data,
+      include: {
+        model: groupModel,
+        attributes: { exclude: ['facultyId'] },
+        include: {
+          model: userModel,
+          attributes: { exclude: ['groupId'] }
+        }
+      }
+    })
   },
 
   async update (id, changes) {

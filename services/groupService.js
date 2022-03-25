@@ -9,12 +9,19 @@ const groupService = {
     return await groupRep.read(data)
   },
 
-  async update (id, changes) {
-    return await groupRep.update(id, changes)
+  async readById (id) {
+    return await groupRep.readOnlyOne({ id })
   },
 
-  async delete (id) {
+  async updateAndReturn (id, changes) {
+    await groupRep.update(id, changes)
+    return await groupRep.readOnlyOne({ id })
+  },
+
+  async deleteAndReturn (id) {
+    const deletedNote = await groupRep.readOnlyOne({ id })
     await groupRep.delete(id)
+    return deletedNote
   }
 }
 

@@ -11,7 +11,7 @@ options.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken()
 options.secretOrKey = secret
 
 passport.use(new JwtStrategy(options, async (playLoad, done) => {
-  userService.read({ id: playLoad.userId })
+  userService.readById(playLoad.userId)
     .then(user => !!user === true ? done(null, user) : done(null, false))
     .catch(error => done(error, false))
 }))

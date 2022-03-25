@@ -9,12 +9,19 @@ const usersService = {
     return await userRep.read(data)
   },
 
-  async update (id, changes) {
-    return await userRep.update(id, changes)
+  async readById (userId) {
+    return await userRep.readOnlyOne({ id: userId })
   },
 
-  async delete (id) {
-    await userRep.delete(id)
+  async updateAndReturn (id, changes) {
+    await userRep.update(id, changes)
+    return await userRep.readOnlyOne({ id })
+  },
+
+  async deleteAndReturn (id) {
+    const deletedNote = await userRep.readOnlyOne({ id })
+    userRep.delete(id)
+    return deletedNote
   }
 }
 

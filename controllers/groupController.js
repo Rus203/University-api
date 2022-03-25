@@ -13,17 +13,23 @@ const groupController = {
     response.status(200).json(groups)
   },
 
+  async readGroupById (request, response) {
+    const { id } = request.params
+    const group = await groupService.readById(id)
+    response.status(200).send(group)
+  },
+
   async updateGroup (request, response) {
     const data = request.body
     const id = request.params.id
-    await groupService.update(id, data)
-    response.status(201).json('the current group has been updated')
+    const updatedNote = await groupService.updateAndReturn(id, data)
+    response.status(201).json(updatedNote)
   },
 
   async deleteGroup (request, response) {
     const { id } = request.params
-    await groupService.delete(id)
-    response.status(200).json('the current group has been deleted')
+    const deletedNote = await groupService.deleteAndReturn(id)
+    response.status(200).json(deletedNote)
   }
 }
 

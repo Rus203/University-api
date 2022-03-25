@@ -10,7 +10,8 @@ const authService = {
   async singUp (data) {
     const { login } = data
     const candidate = await userRep.read({ login })
-    if (candidate) throw new Error(`login '${login} is already exists`)
+    console.log(colors.america(JSON.stringify(candidate, null, 2)))
+    if (Object.keys(candidate).length !== 0) throw new Error(`login ${login} is already exists`)
 
     const newUser = await userRep.add(data)
     const userRole = await roleRep.read({ name: roles.STUDENT })
@@ -19,16 +20,16 @@ const authService = {
 
   async singIn (data) {
     const { login, password } = data
-    const user = await userRep.read({ login })
+    const user = (await userRep.readOnlyOne({ login }))
 
     // check the color of an error in the console
+    console.log(colors.america(JSON.stringify(user, null, 2)))
     if (!user) throw new Error('Incorrect login')
-
     const isPassword = bcrypt.compareSync(password, user.password)
 
-    // check the color of an error in the console
     if (!isPassword) throw new Error(colors.red('Incorrect password'))
 
+    console.log(colors.america('roles will be next'))
     const roles = await roleRep.getRolesOfUser(user)
     console.log(colors.yellow(JSON.stringify({ userId: user.id, roles }, null, 2)))
     return token.generateToken({ userId: user.id, roles })
