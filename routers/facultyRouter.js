@@ -1,16 +1,18 @@
 const facultyController = require('../controllers/facultyController')
+const authorization = require('../middleware/authorization')
+const { ADMIN, STUDENT } = require('../credentials').roles
 
 const { Router } = require('express')
 
 const facultyRouter = Router()
 
 facultyRouter.route('/:id')
-  .get(facultyController.readFacultyById) // get faculties with filters
-  .put(facultyController.updateFaculty)
-  .delete(facultyController.deleteFaculty)
+  .get(authorization(STUDENT), facultyController.readFacultyById) // get faculties with filters
+  .put(authorization(ADMIN), facultyController.updateFaculty)
+  .delete(authorization(ADMIN), facultyController.deleteFaculty)
 
 facultyRouter.route('/')
-  .get(facultyController.readFaculties) // get an id via query parameters
-  .post(facultyController.addFaculty)
+  .get(authorization(STUDENT), facultyController.readFaculties) // get an id via query parameters
+  .post(authorization(ADMIN), facultyController.addFaculty)
 
 module.exports = facultyRouter

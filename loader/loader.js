@@ -1,7 +1,9 @@
 const { Router, json } = require('express')
 
+const colors = require('colors')
+
 const passport = require('../middleware/passport')
-const authenticate = passport.authenticate('jwt', { session: false })
+const authenticate = require('../middleware/authenticate')
 
 const studentRouter = require('../routers/userRouter')
 const groupRouter = require('../routers/groupRouter')
@@ -13,7 +15,7 @@ const homeRouter = Router()
 homeRouter.use(json())
 homeRouter.use(passport.initialize())
 
-homeRouter.use('/auth', authenticate, authRouter)
+homeRouter.use('/auth', authRouter)
 homeRouter.use('/students', authenticate, studentRouter)
 homeRouter.use('/groups', authenticate, groupRouter)
 homeRouter.use('/faculties', authenticate, facultyRouter)
@@ -27,7 +29,8 @@ homeRouter.use((request, response, next) => {
 })
 
 homeRouter.use((error, request, response, next) => {
-  if (error) response.status(500).send('Server error')
+  console.log(colors.green(error))
+  response.status(500).send('Server error')
 })
 
 module.exports = homeRouter

@@ -16,12 +16,16 @@ const roleRepository = {
   },
 
   async getRolesOfUser (user) {
-    const allHimRoles = await user.getRoles({ raw: true })
+    const allHisRoles = await user.getRoles({ raw: true })
     const roles = []
-    for (const key in allHimRoles) {
-      roles.push(allHimRoles[key].name)
+    for (const key in allHisRoles) {
+      roles.push(allHisRoles[key].name)
     }
     return roles
+
+    // const hisRole = await user.getRoles()
+    // console.log(`his role - ${JSON.stringify(hisRole[0].name, null, 2)}`)
+    // return hisRole
   }
 }
 
