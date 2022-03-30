@@ -1,17 +1,18 @@
 const bcrypt = require('bcrypt')
-const colors = require('colors')
+const { StatusCodes, ReasonPhrases } = require('http-status-codes')
 
 const token = require('../utils/token')
 const userRep = require('../repositories/userRepository')
 const roleRep = require('../repositories/roleRepository')
 const { roles } = require('../credentials')
+const ApplicationError = require('../utils/ApplicationError')
 
 const authService = {
   async singUp (data) {
     const { login } = data
     const candidate = await userRep.read({ login })
-    console.log(colors.america(JSON.stringify(candidate, null, 2)))
-    if (Object.keys(candidate).length !== 0) throw new Error(`login ${login} is already exists`)
+
+    if (Object.keys(candidate).length !== 0) throw new ApplicationError(ReasonPhrases.CONFLICT, StatusCodes.CONFLICT)
 
     const newUser = await userRep.add(data)
     const userRole = await roleRep.read({ name: roles.STUDENT })
@@ -22,10 +23,10 @@ const authService = {
     const { login, password } = data
     const user = (await userRep.readOnlyOne({ login }))
 
-    if (!user) throw new Error('Incorrect login')
+    if (!user) throw new ApplicationError(ReasonPhrases.UNAUTHORIZED, StatusCodes.UNAUTHORIZED)
     const isPassword = bcrypt.compareSync(password, user.password)
 
-    if (!isPassword) throw new Error(colors.red('Incorrect password'))
+    if (!isPassword) throw new ApplicationError(ReasonPhrases.UNAUTHORIZED, StatusCodes.UNAUTHORIZED)
 
     const roles = await roleRep.getRolesOfUser(user)
     return token.generateToken({ userId: user.id, roles })

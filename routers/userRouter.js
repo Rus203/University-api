@@ -8,7 +8,7 @@ const userRouter = Router()
 
 userRouter.route('/:id')
   .get(authorization(STUDENT), userController.readUserById)
-  // .put(authorization(ADMIN), userController.updateUser)
+  .put(authorization(ADMIN), userController.updateUser)
   .delete(authorization(ADMIN), userController.deleteUser)
 
 userRouter.get('/', authorization(STUDENT), userController.readUsers) // get an id via query parameters

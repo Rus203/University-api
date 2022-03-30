@@ -1,4 +1,4 @@
-const { userModel, facultyModel, groupModel } = require('../models/index')
+const { userModel } = require('../models/index')
 
 const userRepository = {
   async add (data) {

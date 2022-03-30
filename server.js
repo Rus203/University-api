@@ -1,13 +1,17 @@
 const express = require('express')
+const passport = require('./utils/passport')
 
 const connectToDatabase = require('./database/connectToDatabase')
-const loader = require('./loader/loader')
+const loader = require('./routers/index')
 
 const PORT = process.env.PORT || 3000
 
 const server = express()
 
 connectToDatabase()
+
+server.use(express.json())
+server.use(passport.initialize())
 
 server.use(loader)
 
