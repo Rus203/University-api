@@ -1,16 +1,26 @@
 const authService = require('../services/authService')
+const { StatusCodes, ReasonPhrases } = require('http-status-codes')
+const ApplicationError = require('../utils/ApplicationError')
 
 const authController = {
-  async singUp (request, response) {
+  async singUp (request, response, next) {
     const data = request.body
-    await authService.singUp(data)
-    response.status(201).send('the new user has been successfully registered ')
+    try {
+      await authService.singUp(data)
+      response.status(StatusCodes.CREATED).send('the new user has been successfully registered ')
+    } catch {
+      next(new ApplicationError('You wrote wrong data', StatusCodes.BAD_REQUEST))
+    }
   },
 
-  async singIn (request, response) {
+  async singIn (request, response, next) {
     const data = request.body
-    const token = await authService.singIn(data)
-    response.status(200).send(token)
+    try {
+      const token = await authService.singIn(data)
+      response.status(StatusCodes.OK).send(token)
+    } catch {
+      next(new ApplicationError(ReasonPhrases.UNAUTHORIZED, StatusCodes.UNAUTHORIZED))
+    }
   }
 }
 
