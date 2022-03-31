@@ -1,15 +1,14 @@
 const facultyService = require('../services/facultyService')
-const ApplicationError = require('../utils/ApplicationError')
-const { StatusCodes } = require('http-status-codes')
+const { StatusCodes, ReasonPhrases } = require('http-status-codes')
 
 const facultyController = {
   async addFaculty (request, response, next) {
     const data = request.body
     try {
       await facultyService.create(data)
-      response.status(StatusCodes.CREATED).send({ message: 'the faculty has been added successfully' })
-    } catch {
-      next(new ApplicationError('You wrote wrong data', StatusCodes.BAD_REQUEST))
+      response.status(StatusCodes.CREATED).json({ message: ReasonPhrases.CREATED })
+    } catch (error) {
+      next(error)
     }
   },
 

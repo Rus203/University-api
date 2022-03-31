@@ -1,15 +1,14 @@
 const groupService = require('../services/groupService')
-const { StatusCodes } = require('http-status-codes')
-const ApplicationError = require('../utils/ApplicationError')
+const { StatusCodes, ReasonPhrases } = require('http-status-codes')
 
 const groupController = {
   async addGroup (request, response, next) {
     const data = request.body
     try {
       await groupService.create(data)
-      response.status(StatusCodes.CREATED).send('the new group has been added successfully')
-    } catch {
-      next(new ApplicationError('You wrote wrong data', StatusCodes.BAD_REQUEST))
+      response.status(StatusCodes.CREATED).json({ message: ReasonPhrases.CREATED })
+    } catch (error) {
+      next(error)
     }
   },
 
