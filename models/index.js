@@ -3,19 +3,7 @@ const groupModel = require('./groupModel')
 const facultyModel = require('./facultyModel')
 const roleModel = require('./roleModel')
 const userRoleModel = require('./userRoleModel')
-
-const dbConfig = require('../configs/mySqlDb')
-const { Sequelize } = require('sequelize')
-
-const sequelize = new Sequelize(dbConfig.name, dbConfig.login, dbConfig.password, {
-  logging: false,
-  host: dbConfig.host,
-  dialect: dbConfig.dialect,
-  define: {
-    timestamps: false,
-    underscored: true
-  }
-})
+const sequelize = require('./sequelizeInstance')
 
 const database = {}
 
