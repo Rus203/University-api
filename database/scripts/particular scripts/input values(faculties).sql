@@ -1,5 +1,5 @@
 USE university;
-INSERT INTO faculties(name, phone_number) VALUES('FITR', '+34444433'); 
+INSERT INTO faculties(name, phone_number) VALUES('FITR', '+36664444433'); 
 INSERT INTO faculties(name, phone_number) VALUES('FPT', '+5111111111111');
 
 INSERT INTO `groups`(name, faculty_id) VALUES('IT-9', '1');
