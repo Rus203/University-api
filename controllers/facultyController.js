@@ -14,6 +14,7 @@ const facultyController = {
 
   async readFaculties (request, response) {
     const data = request.query
+    console.log(`data = ${JSON.stringify(data, null, 2)}`)
     const faculties = await facultyService.read(data)
     response.status(StatusCodes.OK).json(faculties)
   },
@@ -26,7 +27,7 @@ const facultyController = {
 
   async updateFaculty (request, response) {
     const { name, phoneNumber } = request.body
-    const id = request.params.id
+    const { id } = request.params
     const updatedNote = await facultyService.updateAndReturn(id, { name, phoneNumber })
     response.status(StatusCodes.OK).json(updatedNote)
   },
