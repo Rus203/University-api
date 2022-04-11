@@ -1,6 +1,6 @@
 const ApplicationError = require('../utils/ApplicationError')
-const { StatusCodes } = require('http-status-codes')
+const { StatusCodes, ReasonPhrases } = require('http-status-codes')
 
 module.exports = (request, response, next) => {
-  next(new ApplicationError('Not found', StatusCodes.NOT_FOUND))
+  next(new ApplicationError(ReasonPhrases.NOT_FOUND, StatusCodes.NOT_FOUND))
 }
