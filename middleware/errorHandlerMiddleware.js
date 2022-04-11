@@ -1,6 +1,5 @@
 const { StatusCodes, ReasonPhrases } = require('http-status-codes')
 
-
 module.exports = function (error, request, response, next) {
   if (error.isOperational) {
     response.status(error.statusCode).json({
