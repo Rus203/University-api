@@ -1,6 +1,6 @@
-// folders
-node_modules/
+# // folders
+# node_modules/
 
-// files
-.env
-.eslintrc.json
+# // files
+# .env
+# .eslintrc.json
