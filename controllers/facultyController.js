@@ -14,7 +14,6 @@ const facultyController = {
 
   async readFaculties (request, response) {
     const data = request.query
-    console.log(`data = ${JSON.stringify(data, null, 2)}`)
     const faculties = await facultyService.read(data)
     response.status(StatusCodes.OK).json(faculties)
   },

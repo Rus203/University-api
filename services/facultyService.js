@@ -15,11 +15,11 @@ const facultyService = {
 
   async updateAndReturn (id, changes) {
     await facultyRep.update(id, changes)
-    return facultyRep.readById(id) // and also it
+    return facultyRep.readOnlyOne({id}) // and also it
   },
 
   async deleteAndReturn (id) {
-    const deletedNote = await facultyRep.readById(id)
+    const deletedNote = await facultyRep.readOnlyOne({id})
     facultyRep.delete(id) // and also it
     return deletedNote
   }

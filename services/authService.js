@@ -15,7 +15,14 @@ const authService = {
     if (Object.keys(candidate).length !== 0) throw new ApplicationError(ReasonPhrases.CONFLICT, StatusCodes.CONFLICT)
 
     const newUser = await userRep.add(data)
-    const userRole = Object.keys(await userRep.read()).length === 1 ? await roleRep.read({ name: roles.ADMIN }) : await roleRep.read({ name: roles.STUDENT })
+    // const userRole = Object.keys(await userRep.read()).length === 1 ? await roleRep.read({ name: roles.ADMIN }) : await roleRep.read({ name: roles.STUDENT })
+
+    if (Object.keys(await userRep.read()).length === 1) {
+      const adminRole = await roleRep.read({ name: roles.ADMIN })
+      await userRep.addUserByRole(adminRole, newUser)
+    }
+    
+    const userRole = await roleRep.read({ name: roles.STUDENT })
     await userRep.addUserByRole(userRole, newUser)
   },
 

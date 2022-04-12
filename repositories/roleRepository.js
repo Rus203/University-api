@@ -22,10 +22,6 @@ const roleRepository = {
       roles.push(allHisRoles[key].name)
     }
     return roles
-
-    // const hisRole = await user.getRoles()
-    // console.log(`his role - ${JSON.stringify(hisRole[0].name, null, 2)}`)
-    // return hisRole
   }
 }
 

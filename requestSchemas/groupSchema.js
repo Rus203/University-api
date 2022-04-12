@@ -4,7 +4,6 @@ const base = Joi.object({
   name: Joi.string()
     .min(1)
     .max(30)
-    .regex(/^[a-zA-Z ]+$/)
     .required(),
 
   facultyId: Joi.number()
